@@ -1,0 +1,50 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import { url, jstYear } from '../lib/site';
+const items = (await getCollection('discography')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const groups = ['猪原純', ...new Set(items.map((i) => i.data.artist).filter((a) => a !== '猪原純'))];
+---
+<Base title="Music" description="猪原純のディスコグラフィー（ソロ・屑星）。">
+  <div class="wrap page-head">
+    <h1 class="eyebrow">Music</h1>
+    <p class="sub">ディスコグラフィー</p>
+  </div>
+  <div class="wrap disc">
+    {groups.map((g) => (
+      <section>
+        <h2 class="grp">{g === '猪原純' ? 'Solo' : g}</h2>
+        {items.filter((i) => i.data.artist === g).map((r) => (
+          <article class="rel">
+            {r.data.cover ? <img src={url(r.data.cover)} alt={`${r.data.title} ジャケット`} loading="lazy" width="300" height="300" /> : <div class="ph">{r.data.title}</div>}
+            <div>
+              <p class="type"><span class="tag">{r.data.type}</span> {jstYear(r.data.date)}</p>
+              <h3>{r.data.title}</h3>
+              <p class="meta">{[r.data.artist, r.data.catalog, r.data.price].filter(Boolean).join(' ／ ')}</p>
+              <ol>{r.data.tracks.map((t) => <li>{t}</li>)}</ol>
+              {r.body?.trim() && <p class="desc">{r.body.trim()}</p>}
+              <div class="btns">
+                {r.data.stream && <a class="btn solid" href={r.data.stream} target="_blank" rel="noopener">配信で聴く</a>}
+                {r.data.buy && <a class="btn" href={r.data.buy} target="_blank" rel="noopener">CDを購入</a>}
+              </div>
+            </div>
+          </article>
+        ))}
+      </section>
+    ))}
+  </div>
+</Base>
+<style>
+  .disc { padding-bottom: 80px; }
+  .grp { font-family: var(--serif); font-weight: 500; font-size: 1.8rem; color: var(--accent); margin: 48px 0 0; }
+  .rel { display: grid; grid-template-columns: 240px 1fr; gap: 32px; padding: 32px 0; border-bottom: 1px solid var(--line); }
+  .rel img, .ph { border-radius: 4px; aspect-ratio: 1; width: 100%; }
+  .ph { display: grid; place-items: center; background: linear-gradient(135deg, #16223a, #0f2a2c); font-family: var(--serif); font-size: 1.6rem; text-align: center; padding: 12px; }
+  .type { margin: 0; color: var(--muted); font-size: .85rem; }
+  h3 { font-family: var(--serif); font-weight: 500; font-size: 2.2rem; margin: 4px 0; line-height: 1.2; }
+  .meta { color: var(--muted); font-size: .88rem; margin: 0 0 12px; }
+  ol { margin: 0; padding-left: 1.6em; font-size: .92rem; columns: 2; column-gap: 32px; }
+  .desc { font-size: .92rem; margin-top: 16px; white-space: pre-line; }
+  .btns { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
+  @media (max-width: 640px) { .rel { grid-template-columns: 1fr; } .rel img, .ph { max-width: 280px; } ol { columns: 1; } }
+</style>

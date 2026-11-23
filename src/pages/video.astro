@@ -1,0 +1,29 @@
+---
+import Base from '../layouts/Base.astro';
+import YouTube from '../components/YouTube.astro';
+import { getCollection } from 'astro:content';
+const videos = await getCollection('videos');
+---
+<Base title="Video" description="猪原純・屑星のミュージックビデオ、ライブ映像。">
+  <div class="wrap page-head">
+    <h1 class="eyebrow">Video</h1>
+    <p class="sub">映像</p>
+  </div>
+  <div class="wrap grid">
+    {videos.map((v) => (
+      <figure>
+        <YouTube id={v.data.youtube} title={v.data.title} />
+        <figcaption>{v.data.title}{v.data.note && <small>{v.data.note}</small>}</figcaption>
+      </figure>
+    ))}
+  </div>
+  <p class="wrap ch"><a class="btn" href="https://www.youtube.com/user/cavebear0914" target="_blank" rel="noopener">YouTubeチャンネルを見る</a></p>
+</Base>
+<style>
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 32px 24px; }
+  figure { margin: 0; }
+  figcaption { font-size: .9rem; margin-top: 10px; }
+  small { display: block; color: var(--muted); font-size: .8rem; }
+  .ch { padding-block: 48px 80px; }
+  @media (max-width: 400px) { .grid { grid-template-columns: 1fr; } }
+</style>

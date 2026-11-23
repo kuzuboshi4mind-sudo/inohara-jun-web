@@ -1,0 +1,37 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { formatDate } from '../lib/site';
+interface Props { items: CollectionEntry<'live'>[]; compact?: boolean; }
+const { items, compact = false } = Astro.props;
+---
+<ul class="live">
+  {items.map((l) => {
+    const d = l.data;
+    return (
+      <li>
+        <p class="date">{formatDate(d.date, true)}</p>
+        <div class="body">
+          <p class="ttl">{d.act && <span class="tag">{d.act}</span>} {d.title}</p>
+          <p class="venue">{d.area && <span class="area">{d.area}｜</span>}{d.venue}</p>
+          {!compact && (d.open || d.start) && <p class="meta">{[d.open, d.start && `開演 ${d.start}`].filter(Boolean).join(' / ')}</p>}
+          {!compact && d.with && <p class="meta">w/ {d.with}</p>}
+          {!compact && d.ticket && <p class="meta">チケット: {d.ticket}</p>}
+          {!compact && l.body?.trim() && <p class="meta">{l.body.trim()}</p>}
+          {d.link && <p class="meta"><a href={d.link} target="_blank" rel="noopener">詳細・予約 ↗</a></p>}
+        </div>
+      </li>
+    );
+  })}
+</ul>
+<style>
+  .live { list-style: none; margin: 0; padding: 0; }
+  .live li { display: grid; grid-template-columns: 11.5em 1fr; gap: 4px 24px; padding: 22px 0; border-bottom: 1px solid var(--line); }
+  .date { margin: 0; font-family: var(--serif); font-size: 1.3rem; letter-spacing: .04em; line-height: 1.4; }
+  .body p { margin: 0; }
+  .ttl { font-weight: 600; }
+  .venue { color: var(--text); }
+  .area { color: var(--muted); }
+  .meta { color: var(--muted); font-size: .88rem; margin-top: 4px !important; }
+  .meta a { color: var(--accent); }
+  @media (max-width: 640px) { .live li { grid-template-columns: 1fr; } }
+</style>

@@ -1,0 +1,33 @@
+---
+// クリックされるまで YouTube を読み込まない軽量プレーヤー
+interface Props { id: string; title: string; }
+const { id, title } = Astro.props;
+---
+<div class="yt" data-id={id} data-title={title}>
+  <button type="button" aria-label={`再生: ${title}`}>
+    <img src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`} alt="" loading="lazy" width="480" height="360" />
+    <span class="play" aria-hidden="true"></span>
+  </button>
+</div>
+<script>
+  document.querySelectorAll<HTMLElement>('.yt').forEach((el) => {
+    el.querySelector('button')?.addEventListener('click', () => {
+      const f = document.createElement('iframe');
+      f.src = `https://www.youtube-nocookie.com/embed/${el.dataset.id}?autoplay=1&rel=0`;
+      f.title = el.dataset.title || '';
+      f.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
+      f.allowFullscreen = true;
+      el.replaceChildren(f);
+    }, { once: true });
+  });
+</script>
+<style>
+  .yt { position: relative; aspect-ratio: 16 / 9; background: #000; border-radius: 8px; overflow: hidden; }
+  .yt button { all: unset; cursor: pointer; display: block; width: 100%; height: 100%; }
+  .yt img { width: 100%; height: 100%; object-fit: cover; opacity: .85; transition: opacity .25s; }
+  .yt button:hover img { opacity: 1; }
+  .yt button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+  .play { position: absolute; left: 50%; top: 50%; width: 64px; height: 64px; translate: -50% -50%; border-radius: 50%; background: rgb(11 15 26 / .7); border: 1px solid rgb(255 255 255 / .6); }
+  .play::after { content: ""; position: absolute; left: 26px; top: 21px; border-left: 16px solid #fff; border-block: 11px solid transparent; }
+  .yt :global(iframe) { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+</style>

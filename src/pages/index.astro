@@ -1,0 +1,116 @@
+---
+import Base from '../layouts/Base.astro';
+import LiveList from '../components/LiveList.astro';
+import YouTube from '../components/YouTube.astro';
+import Socials from '../components/Socials.astro';
+import { getCollection } from 'astro:content';
+import { getLives, getNews } from '../lib/content';
+import { site, url, formatDate } from '../lib/site';
+
+const { upcoming, past } = await getLives();
+const news = (await getNews()).slice(0, 4);
+const videos = (await getCollection('videos')).filter((v) => v.data.featured).slice(0, 3);
+const latest = (await getCollection('discography')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const solo = latest.find((r) => r.data.artist === '猪原純') ?? latest[0];
+---
+<Base>
+  <section class="hero">
+    <img src={url('/images/stage-wide.webp')} alt="ステージに立つ猪原純" width="1800" height="1200" fetchpriority="high" />
+    <div class="hero-txt wrap">
+      <p class="hero-role">Guitarist / Singer-Songwriter / Composer</p>
+      <h1><span class="ja">{site.name}</span><span class="en">{site.nameEn}</span></h1>
+      <p class="hero-tag">{site.tagline}</p>
+    </div>
+  </section>
+
+  <section class="section wrap" id="live">
+    <h2 class="eyebrow">Live</h2>
+    <p class="sub">ライブスケジュール</p>
+    {upcoming.length > 0 ? (
+      <LiveList items={upcoming.slice(0, 5)} compact />
+    ) : (
+      <>
+        <p class="empty">現在お知らせできる公演を準備中です。最新情報は Instagram・公式LINE でお届けしています。</p>
+        <p class="sub" style="margin:28px 0 8px">最近のライブ</p>
+        <LiveList items={past.slice(0, 3)} compact />
+      </>
+    )}
+    <a class="more" href={url('live/')}>All Live</a>
+  </section>
+
+  <section class="section wrap" id="news">
+    <h2 class="eyebrow">News</h2>
+    <p class="sub">お知らせ</p>
+    <ul class="news">
+      {news.map((n) => (
+        <li><a href={url(`news/${n.id}/`)}><time>{formatDate(n.data.date)}</time><span>{n.data.title}</span></a></li>
+      ))}
+    </ul>
+    <a class="more" href={url('news/')}>All News</a>
+  </section>
+
+  {solo && (
+    <section class="section wrap release">
+      <div>
+        <h2 class="eyebrow">Music</h2>
+        <p class="sub">{solo.data.type}</p>
+        <h3 class="rel-title">{solo.data.title}</h3>
+        <p class="muted">{formatDate(solo.data.date)} Release{solo.data.price && ` ／ ${solo.data.price}`}</p>
+        <div class="btns">
+          {solo.data.stream && <a class="btn solid" href={solo.data.stream} target="_blank" rel="noopener">配信で聴く</a>}
+          <a class="btn" href={url('music/')}>Discography</a>
+        </div>
+      </div>
+      {solo.data.cover && <img src={url(solo.data.cover)} alt={`${solo.data.title} ジャケット`} width="900" height="898" loading="lazy" />}
+    </section>
+  )}
+
+  <section class="section wrap" id="video">
+    <h2 class="eyebrow">Video</h2>
+    <p class="sub">映像</p>
+    <div class="vgrid">
+      {videos.map((v) => (
+        <figure><YouTube id={v.data.youtube} title={v.data.title} /><figcaption>{v.data.title}</figcaption></figure>
+      ))}
+    </div>
+    <a class="more" href={url('video/')}>All Video</a>
+  </section>
+
+  <section class="section wrap follow">
+    <h2 class="eyebrow">Follow</h2>
+    <p class="sub">日々の活動はSNSで発信しています</p>
+    <Socials />
+    <p class="line-cta"><a class="btn solid" href="https://lin.ee/WUao6dU" target="_blank" rel="noopener">公式LINEでライブ情報を受け取る</a></p>
+  </section>
+</Base>
+
+<style>
+  .hero { position: relative; min-height: min(92svh, 860px); display: grid; align-items: end; overflow: hidden; }
+  .hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; }
+  .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, var(--bg) 2%, rgb(11 15 26 / .55) 40%, rgb(11 15 26 / .1) 75%); }
+  .hero-txt { position: relative; z-index: 1; padding-bottom: 64px; }
+  .hero-role { color: var(--accent); font-size: .78rem; letter-spacing: .25em; text-transform: uppercase; margin: 0 0 10px; }
+  h1 { margin: 0; line-height: 1.05; }
+  h1 .ja { display: block; font-size: clamp(2.4rem, 8vw, 4.4rem); font-weight: 500; letter-spacing: .18em; font-family: "Shippori Mincho", "Hiragino Mincho ProN", "Yu Mincho", serif; }
+  h1 .en { display: block; font-family: var(--serif); font-size: clamp(1.2rem, 3vw, 1.6rem); font-weight: 400; letter-spacing: .35em; margin-top: 10px; color: var(--muted); }
+  .hero-tag { margin: 22px 0 0; font-size: clamp(.95rem, 2.4vw, 1.1rem); letter-spacing: .2em; }
+  .empty { color: var(--muted); }
+  .news { list-style: none; padding: 0; margin: 0; }
+  .news a { display: grid; grid-template-columns: 7.5em 1fr; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--line); text-decoration: none; }
+  .news time { font-family: var(--serif); color: var(--muted); font-size: 1.1rem; }
+  .release { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+  .release img { border-radius: 4px; box-shadow: 0 20px 60px rgb(0 0 0 / .5); }
+  .rel-title { font-family: var(--serif); font-size: clamp(2.4rem, 7vw, 3.6rem); font-weight: 500; margin: 0; line-height: 1.1; }
+  .muted { color: var(--muted); }
+  .btns { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+  .vgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  figure { margin: 0; }
+  figcaption { font-size: .85rem; color: var(--muted); margin-top: 8px; }
+  .follow { text-align: center; }
+  .line-cta { margin-top: 28px; }
+  @media (max-width: 760px) {
+    .release { grid-template-columns: 1fr; gap: 32px; }
+    .vgrid { grid-template-columns: 1fr; }
+    .news a { grid-template-columns: 1fr; gap: 0; }
+  }
+</style>

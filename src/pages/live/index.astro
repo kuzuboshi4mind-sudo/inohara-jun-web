@@ -1,0 +1,40 @@
+---
+import Base from '../../layouts/Base.astro';
+import LiveList from '../../components/LiveList.astro';
+import { getLives } from '../../lib/content';
+import { jstYear } from '../../lib/site';
+
+const { upcoming, past } = await getLives();
+const years = [...new Set(past.map((l) => jstYear(l.data.date)))];
+---
+<Base title="Live" description="猪原純のライブスケジュールと過去のライブアーカイブ。">
+  <div class="wrap page-head">
+    <h1 class="eyebrow">Live</h1>
+    <p class="sub">ライブスケジュール</p>
+  </div>
+  <section class="wrap">
+    {upcoming.length ? <LiveList items={upcoming} /> : <p class="muted">現在お知らせできる公演を準備中です。</p>}
+  </section>
+  {past.length > 0 && (
+    <section class="wrap archive">
+      <h2 class="eyebrow">Archive</h2>
+      <p class="sub">過去のライブ</p>
+      {years.map((y, i) => (
+        <details open={i === 0}>
+          <summary>{y}<span>{past.filter((l) => jstYear(l.data.date) === y).length} shows</span></summary>
+          <LiveList items={past.filter((l) => jstYear(l.data.date) === y)} />
+        </details>
+      ))}
+    </section>
+  )}
+</Base>
+<style>
+  .muted { color: var(--muted); }
+  .archive { padding-block: 80px; }
+  details { border-top: 1px solid var(--line); }
+  summary { cursor: pointer; padding: 18px 0; font-family: var(--serif); font-size: 1.7rem; list-style: none; display: flex; justify-content: space-between; align-items: baseline; }
+  summary::-webkit-details-marker { display: none; }
+  summary span { font-size: .95rem; color: var(--muted); }
+  summary::after { content: "+"; color: var(--accent); margin-left: 12px; }
+  details[open] summary::after { content: "−"; }
+</style>

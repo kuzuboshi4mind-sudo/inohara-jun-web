@@ -1,0 +1,34 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getNews } from '../../lib/content';
+import { url, formatDate, jstYear } from '../../lib/site';
+
+const news = await getNews();
+const years = [...new Set(news.map((n) => jstYear(n.data.date)))];
+---
+<Base title="News" description="猪原純からのお知らせ・活動記録。">
+  <div class="wrap page-head">
+    <h1 class="eyebrow">News</h1>
+    <p class="sub">お知らせ・活動記録</p>
+  </div>
+  <div class="wrap list">
+    {years.map((y) => (
+      <section>
+        <h2 class="year">{y}</h2>
+        <ul>
+          {news.filter((n) => jstYear(n.data.date) === y).map((n) => (
+            <li><a href={url(`news/${n.id}/`)}><time>{formatDate(n.data.date)}</time><span>{n.data.title}</span></a></li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </div>
+</Base>
+<style>
+  .list { padding-bottom: 80px; }
+  .year { font-family: var(--serif); font-weight: 500; font-size: 1.7rem; margin: 40px 0 4px; color: var(--accent); }
+  ul { list-style: none; margin: 0; padding: 0; }
+  a { display: grid; grid-template-columns: 7.5em 1fr; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--line); text-decoration: none; }
+  time { font-family: var(--serif); color: var(--muted); font-size: 1.1rem; }
+  @media (max-width: 640px) { a { grid-template-columns: 1fr; gap: 0; } }
+</style>

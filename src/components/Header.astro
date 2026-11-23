@@ -1,0 +1,35 @@
+---
+import { nav, site, url } from '../lib/site';
+const path = Astro.url.pathname;
+---
+<header class="hd">
+  <div class="wrap hd-in">
+    <a class="logo" href={url('')}>{site.nameEn}</a>
+    <input type="checkbox" id="menu" class="menu-cb" aria-hidden="true" />
+    <label for="menu" class="menu-btn" aria-label="メニュー"><span></span></label>
+    <nav class="nav" aria-label="メインメニュー">
+      {nav.map((n) => (
+        <a href={url(n.href)} aria-current={path.startsWith(url(n.href)) ? 'page' : undefined}>{n.label}</a>
+      ))}
+    </nav>
+  </div>
+</header>
+<style>
+  .hd { position: fixed; inset: 0 0 auto; z-index: 50; background: linear-gradient(var(--bg) 0%, rgb(11 15 26 / .75) 70%, transparent); backdrop-filter: blur(6px); }
+  .hd-in { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+  .logo { font-family: var(--serif); font-size: 1.5rem; letter-spacing: .12em; text-decoration: none; }
+  .nav { display: flex; gap: 28px; font-family: var(--serif); font-size: 1.1rem; letter-spacing: .1em; }
+  .nav a { text-decoration: none; opacity: .85; }
+  .nav a[aria-current] { color: var(--accent); opacity: 1; }
+  .menu-cb, .menu-btn { display: none; }
+  @media (max-width: 760px) {
+    .menu-btn { display: block; width: 32px; height: 32px; position: relative; cursor: pointer; z-index: 2; }
+    .menu-btn span, .menu-btn span::before, .menu-btn span::after { content: ""; position: absolute; left: 4px; right: 4px; height: 1.5px; background: var(--text); transition: .25s; }
+    .menu-btn span { top: 15px; } .menu-btn span::before { top: -7px; left: 0; right: 0; } .menu-btn span::after { top: 7px; left: 0; right: 0; }
+    .menu-cb:checked + .menu-btn span { background: transparent; }
+    .menu-cb:checked + .menu-btn span::before { top: 0; transform: rotate(45deg); }
+    .menu-cb:checked + .menu-btn span::after { top: 0; transform: rotate(-45deg); }
+    .nav { position: fixed; inset: 0; flex-direction: column; align-items: center; justify-content: center; gap: 22px; font-size: 1.8rem; background: rgb(11 15 26 / .97); opacity: 0; pointer-events: none; transition: opacity .25s; }
+    .menu-cb:checked ~ .nav { opacity: 1; pointer-events: auto; }
+  }
+</style>

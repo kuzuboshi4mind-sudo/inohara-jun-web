@@ -1,0 +1,63 @@
+---
+import Base from '../layouts/Base.astro';
+import { url, site } from '../lib/site';
+
+// 年表。新しい出来事は一番下に1行足すだけでOKです。
+const history: [string, string][] = [
+  ['2009', '屑星にて島村楽器主催「HOTLINE2009」JAPAN FINAL グランプリ受賞（エントリー総数2,500組以上）'],
+  ['2018', '1stソロアルバム『ensemble』リリース。9/16 福山Cableにてソロワンマンライブ'],
+  ['2019', '屑星 ミニアルバム『第二夜』リリース、レコ発ワンマンライブ'],
+  ['2020', 'ライブハウス支援ソング「この街から」に参加。ソロ配信ワンマンライブ開催。屑星 Art MV「からっぽ」公開、海外の映画祭で受賞・入選'],
+  ['2021', '屑星「スロウダウン（Live First Take）」公開。チャリティソング「花のように」無料配信。アルバム『ensemble』完全再現配信ワンマン。作家326さんの書籍『あなたがのこしてくれたもの』テーマソングの歌とギターを担当。Feel Art Cafe 第10回開催（ライブドローイング 近藤康平さんとコラボ）'],
+  ['2022', 'SOUND MAZIC OKI ギター講師に就任'],
+  ['2023', 'Blue Green Music Lab. 設立。Feel Art Cafe を産業会館ビッグローズにて2日間開催。自身初の神辺文化会館ホールワンマンライブ'],
+  ['2024', '神石インターナショナルスクール（JINIS）プライベートレッスンコーチ就任'],
+  ['2025', '2度目の神辺文化会館小ホールワンマンライブ、ソールドアウト'],
+  ['2026', '台湾ツアー。Feel Art Cafe 15th Anniversary（沼隈サンパルホール）'],
+];
+---
+<Base title="Profile" description="猪原純（Jun Inohara）プロフィール。広島県福山市出身のギタリスト・シンガーソングライター。">
+  <div class="wrap page-head">
+    <h1 class="eyebrow">Profile</h1>
+    <p class="sub">プロフィール</p>
+  </div>
+  <section class="wrap bio">
+    <img src={url('/images/stage-portrait.webp')} alt="ライブで歌う猪原純" width="1000" height="1500" loading="lazy" />
+    <div class="prose">
+      <h2 class="name">{site.name}<small>{site.nameEn}</small></h2>
+      <p class="roles">ギタリスト・ヴォーカリスト・シンガーソングライター・作曲家<br />Feel Art Cafe 主宰 / Blue Green Music Lab. 代表 / ギター講師</p>
+      <p class="tagline">{site.tagline}</p>
+      <p>広島県福山市出身。現在福山市を中心に『屑星』（空間系ギターロック）、『THE FROGS』（ジャムインスト）といったバンド活動を展開する傍ら、シンガーソングライターとしてもソロ活動を行うなど、柔軟かつ多彩に音楽表現を続けている。</p>
+      <p>同時に、作詞・作曲・編曲も手掛け、数々のアーティストのレコーディングやサポート演奏など、精力的に音楽活動に携わっている。これまでにシングル・アルバム含め7枚のCDを制作。</p>
+      <p>自身のバンド『屑星』にて、島村楽器主催『HOTLINE2009』JAPAN FINALにおいてエントリー総数2500組以上の中からグランプリを受賞し日本一に輝いた他、『チボリエンターテイメントチャレンジ』グランプリ受賞、『カレッジロックフェスティバル全国大会』審査員特別賞受賞、広島市成人式ゲスト出演、劇団公演 重松清原作『流星ワゴン』劇中歌として楽曲が抜擢される。『THE FROGS』では2年連続で高槻JAZZストリートに出演。</p>
+      <p>近年は楽曲提供・音楽講師なども手がけ、活動の幅を広げている。</p>
+    </div>
+  </section>
+
+  <section class="wrap fac">
+    <h2 class="eyebrow">Feel Art Cafe</h2>
+    <p class="sub">〜名もなき音楽隊〜</p>
+    <p class="prose">カフェのようなアットホームな空間で、良い音楽をジャンルや世代を超えて楽しもうというコンセプトのもと、チェコでプロヴァイオリニストとして活躍する後藤博亮と猪原純によって生み出されたコラボイベント。ロック、クラシック、アコースティックなど様々なフィールドで活躍するアーティストが一つのバンドとして結集し、ストリングスを交えた豪華なオリジナルアレンジで演奏する。</p>
+  </section>
+
+  <section class="wrap hist">
+    <h2 class="eyebrow">History</h2>
+    <p class="sub">活動の記録</p>
+    <dl>
+      {history.map(([y, t]) => (<><dt>{y}</dt><dd>{t}</dd></>))}
+    </dl>
+  </section>
+</Base>
+<style>
+  .bio { display: grid; grid-template-columns: 340px 1fr; gap: 48px; align-items: start; padding-bottom: 72px; }
+  .bio img { border-radius: 6px; position: sticky; top: 90px; }
+  .name { font-family: "Shippori Mincho", "Hiragino Mincho ProN", serif; font-size: 2rem; font-weight: 500; letter-spacing: .15em; margin: 0; }
+  .name small { display: block; font-family: var(--serif); font-size: 1.1rem; letter-spacing: .3em; color: var(--muted); }
+  .roles { color: var(--muted); font-size: .88rem; }
+  .tagline { color: var(--accent); letter-spacing: .15em; }
+  .fac, .hist { padding-block: 72px; border-top: 1px solid var(--line); }
+  dl { display: grid; grid-template-columns: 5em 1fr; margin: 0; }
+  dt, dd { padding: 14px 0; border-bottom: 1px solid var(--line); margin: 0; }
+  dt { font-family: var(--serif); font-size: 1.3rem; color: var(--accent); line-height: 1.5; }
+  @media (max-width: 760px) { .bio { grid-template-columns: 1fr; } .bio img { position: static; max-width: 360px; } }
+</style>

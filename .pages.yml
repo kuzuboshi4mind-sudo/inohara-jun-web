@@ -1,0 +1,74 @@
+# Pages CMS（https://pagescms.org）用の設定。
+# GitHubアカウントでログインすると、スマホからでもフォーム入力でライブやお知らせを追加できます。
+media:
+  input: public/images
+  output: /images
+
+content:
+  - name: live
+    label: ライブ
+    type: collection
+    path: src/content/live
+    filename: "{year}-{month}-{day}-{fields.title}.md"
+    view:
+      fields: [date, title, venue]
+      sort: [date]
+      default: { sort: date, order: desc }
+    fields:
+      - { name: date, label: 日付, type: date, required: true }
+      - { name: title, label: タイトル（イベント名）, type: string, required: true }
+      - { name: venue, label: 会場, type: string, required: true }
+      - { name: area, label: 地域（例 広島・福山）, type: string }
+      - { name: act, label: 出演形態（ソロ / 屑星 など）, type: string }
+      - { name: open, label: 開場, type: string }
+      - { name: start, label: 開演, type: string }
+      - { name: with, label: 共演, type: string }
+      - { name: ticket, label: チケット, type: string }
+      - { name: link, label: 詳細・予約URL, type: string }
+      - { name: body, label: 補足メモ, type: text }
+
+  - name: news
+    label: お知らせ
+    type: collection
+    path: src/content/news
+    filename: "{year}-{month}-{day}-{fields.title}.md"
+    view:
+      fields: [date, title]
+      default: { sort: date, order: desc }
+    fields:
+      - { name: date, label: 日付, type: date, required: true }
+      - { name: title, label: タイトル, type: string, required: true }
+      - { name: description, label: 概要（SNSで共有したときに表示）, type: string }
+      - { name: image, label: アイキャッチ画像, type: image }
+      - { name: body, label: 本文, type: rich-text }
+
+  - name: discography
+    label: ディスコグラフィー
+    type: collection
+    path: src/content/discography
+    view:
+      fields: [title, artist, date]
+    fields:
+      - { name: title, label: タイトル, type: string, required: true }
+      - { name: artist, label: アーティスト（猪原純 / 屑星 など）, type: string, required: true }
+      - { name: type, label: 種類（Album / Single など）, type: string, required: true }
+      - { name: date, label: 発売日, type: date, required: true }
+      - { name: cover, label: ジャケット画像, type: image }
+      - { name: catalog, label: 品番, type: string }
+      - { name: price, label: 価格, type: string }
+      - { name: tracks, label: 収録曲, type: string, list: true }
+      - { name: buy, label: 購入URL, type: string }
+      - { name: stream, label: 配信URL, type: string }
+      - { name: body, label: 紹介文, type: text }
+
+  - name: videos
+    label: 動画
+    type: file
+    path: src/content/videos.yaml
+    list: true
+    fields:
+      - { name: id, label: 管理用ID（英数字）, type: string, required: true }
+      - { name: title, label: タイトル, type: string, required: true }
+      - { name: youtube, label: YouTube動画ID（URLの v= の後ろ11文字）, type: string, required: true }
+      - { name: note, label: メモ, type: string }
+      - { name: featured, label: トップページに表示, type: boolean }

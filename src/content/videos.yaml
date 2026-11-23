@@ -1,0 +1,48 @@
+# 動画一覧。上にあるものほど先に表示されます。youtube には動画IDを入れます。
+- id: gabriels-oboe
+  title: ガブリエルのオーボエ / Gabriel's Oboe
+  youtube: zk2YJjdM5mY
+  note: 猪原純（Ag）× 沖恵（Oboe）DUO
+  featured: true
+- id: karappo
+  title: Music Video『からっぽ』／屑星
+  youtube: edwTZqaG40M
+  note: 海外映画祭で受賞・入選
+  featured: true
+- id: slowdown
+  title: 屑星「スロウダウン」Live First Take
+  youtube: IkfuvJIeF-M
+  featured: true
+- id: ensemble-trailer
+  title: 1st Album『ensemble』trailer
+  youtube: qZnilbPY-II
+- id: hana
+  title: 花のように / 猪原純
+  youtube: b7JyWCMwaLo
+- id: kaze
+  title: 風のとおり道 アコギ4重奏（TAB譜無料配布中）
+  youtube: ddoQ4LTtCrU
+- id: denwa
+  title: 電話に入って笑顔の君と手を繋いで歩きたい（326 書籍テーマソング）
+  youtube: 1JYO3SM-xeU
+- id: rainy
+  title: 「rainy」猪原純 × 増川勝洋
+  youtube: 9sEyTCRG_Wg
+- id: daremo
+  title: 誰も知らない（Feel Art Cafe vol.9 より）
+  youtube: T6MgaNizVfU
+- id: kono-machi
+  title: この街から 〜いい音楽は、つづけられる。〜
+  youtube: 58rA2l4BSWE
+- id: yokaze
+  title: 夜風の交差 PV／屑星
+  youtube: dsEWCHLOMUY
+- id: empty
+  title: Music video "Empty" by Kuzuboshi
+  youtube: 8unTEOcO2iM
+- id: hotline2009
+  title: 屑星 HOTLINE2009 JAPAN FINAL
+  youtube: BYcwK5ZaCsM
+- id: frogs
+  title: THE FROGS『大衆音楽の対角線上に群生するポップソング』
+  youtube: xwd0UoDwFFc

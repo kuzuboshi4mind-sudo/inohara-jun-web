@@ -1,0 +1,36 @@
+---
+import Base from '../layouts/Base.astro';
+import Socials from '../components/Socials.astro';
+import { site } from '../lib/site';
+const subject = encodeURIComponent('【お問い合わせ】猪原純 Webサイトより');
+---
+<Base title="Contact" description="猪原純へのお仕事のご依頼・ライブのご予約・お問い合わせ。">
+  <div class="wrap page-head">
+    <h1 class="eyebrow">Contact</h1>
+    <p class="sub">お問い合わせ</p>
+  </div>
+  <section class="wrap prose body">
+    <p>ライブ出演・演奏・楽曲制作・編曲・レコーディング・ギターレッスンなど、お仕事のご依頼やライブのご予約、各種お問い合わせはお気軽にどうぞ。</p>
+    <div class="cards">
+      <a class="card" href={`mailto:${site.email}?subject=${subject}`}>
+        <strong>メールで問い合わせる</strong><span>{site.email}</span>
+      </a>
+      <a class="card" href="https://lin.ee/WUao6dU" target="_blank" rel="noopener">
+        <strong>公式LINEで問い合わせる</strong><span>友だち追加してメッセージを送信</span>
+      </a>
+    </div>
+    <p class="note">ライブのご予約の際は「公演日・お名前・人数」をお知らせください。</p>
+    <h2>SNS</h2>
+    <Socials />
+  </section>
+</Base>
+<style>
+  .body { padding-bottom: 80px; }
+  .cards { display: grid; gap: 16px; margin: 32px 0; }
+  .card { display: block; padding: 22px 24px; border: 1px solid var(--line); border-radius: 10px; text-decoration: none; background: var(--bg-2); }
+  .card:hover { border-color: var(--accent); }
+  .card strong { display: block; font-size: 1.05rem; }
+  .card span { color: var(--muted); font-size: .88rem; word-break: break-all; }
+  .note { color: var(--muted); font-size: .88rem; }
+  .body :global(.sns) { justify-content: flex-start; }
+</style>
