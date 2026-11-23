@@ -21,8 +21,21 @@ jobs:
         with:
           ruby-version: "3.3"
           bundler-cache: true
-      - uses: actions/configure-pages@v5
-      - run: bundle exec jekyll build
+      - id: pages
+        uses: actions/configure-pages@v5
+      # Pages 設定に独自ドメインが無いあいだ（*.github.io）は「仮サイトモード」：
+      #   github.io/inohara-jun-web/ で正しく表示し、検索エンジンには載せない
+      # 独自ドメインを設定すると自動で「本番モード」に切り替わります
+      - name: Build
+        run: |
+          if [[ "${{ steps.pages.outputs.host }}" == *github.io ]]; then
+            echo "::notice::仮サイトモード (noindex) でビルドします"
+            bundle exec jekyll build --config _config.yml,_config.staging.yml \
+              --baseurl "${{ steps.pages.outputs.base_path }}"
+          else
+            echo "::notice::本番モードでビルドします (${{ steps.pages.outputs.host }})"
+            bundle exec jekyll build
+          fi
         env:
           JEKYLL_ENV: production
           TZ: Asia/Tokyo

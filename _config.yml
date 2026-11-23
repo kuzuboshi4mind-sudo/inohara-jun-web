@@ -47,3 +47,5 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - .pages.yml
+  - MIGRATION.md
+  - _config.staging.yml

@@ -2,7 +2,7 @@
 title: Biography
 ---
 <div class="bio-head">
-<img src="/assets/img/profile.webp" alt="猪原 純" class="profile-photo" width="800" height="1200">
+<img src="{{ '/assets/img/profile.webp' | relative_url }}" alt="猪原 純" class="profile-photo" width="800" height="1200">
 <div markdown="1">
 
 ## 猪原 純 <small>Inohara Jun</small>

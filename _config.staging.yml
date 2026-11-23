@@ -1,0 +1,5 @@
+# 仮サイト（github.io）でビルドするときだけ上書きされる設定。
+# GitHub の Pages 設定に独自ドメインが入っていないあいだ、ワークフローが自動で使います。
+# 検索エンジンには登録されません（noindex）。
+staging: true
+url: "https://kuzuboshi4mind-sudo.github.io"
