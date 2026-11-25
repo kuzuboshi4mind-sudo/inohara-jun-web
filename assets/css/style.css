@@ -169,3 +169,14 @@ img{max-width:100%;height:auto}
 .contact-form button{justify-self:start;border:0;cursor:pointer;font:inherit;font-weight:700}
 .hp{display:none}
 .live-info{font-weight:400}
+
+/* トップページ「Pick Up」動画：1本目を大きく、残りを横並び */
+.pickup { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px 20px; }
+.pickup-item { margin: 0; min-width: 0; }
+.pickup-item .yt { max-width: none; width: 100%; margin: 0; }
+.pickup-item.is-main { grid-column: 1 / -1; }
+.pickup-item figcaption { margin-top: 8px; font-size: .85rem; line-height: 1.6; color: var(--muted, #667); }
+.pickup-item.is-main figcaption { font-size: .95rem; }
+@media (max-width: 720px) {
+  .pickup { grid-template-columns: 1fr; gap: 24px; }
+}

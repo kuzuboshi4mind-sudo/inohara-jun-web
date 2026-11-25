@@ -12,6 +12,27 @@ body_class: home
 </section>
 
 <section class="wrap section">
+  <div class="section-head"><h2>News</h2><a href="{{ '/news/' | relative_url }}">すべて見る →</a></div>
+  {% assign latest = site.posts | slice: 0, 5 %}
+  {% include post-list.html posts=latest %}
+</section>
+
+{% assign picks = site.data.videos | where: "pickup", true %}
+{% if picks.size > 0 %}
+<section class="wrap section">
+  <div class="section-head"><h2>Pick Up</h2><a href="{{ '/movie/' | relative_url }}">すべて見る →</a></div>
+  <div class="pickup">
+  {% for v in picks %}
+    <figure class="pickup-item{% if forloop.first %} is-main{% endif %}">
+      {% include youtube.html id=v.id title=v.title %}
+      <figcaption>{{ v.title }}</figcaption>
+    </figure>
+  {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+<section class="wrap section">
   <div class="section-head"><h2>Live</h2><a href="{{ '/live/' | relative_url }}">すべて見る →</a></div>
   {% assign lives = site.lives | sort: "date" %}{% assign shown = 0 %}
   {% for l in lives %}{% assign d = l.date | date: "%Y-%m-%d" %}
@@ -19,19 +40,6 @@ body_class: home
   {% endfor %}
   {% if shown == 0 %}<p class="muted">次回のライブ情報は近日公開します。SNSでもお知らせします。<a href="{{ '/live/' | relative_url }}">過去のライブ</a></p>{% endif %}
 </section>
-
-<section class="wrap section">
-  <div class="section-head"><h2>News</h2><a href="{{ '/news/' | relative_url }}">すべて見る →</a></div>
-  {% assign latest = site.posts | slice: 0, 5 %}
-  {% include post-list.html posts=latest %}
-</section>
-
-{% if site.featured_youtube_id != "" %}
-<section class="wrap section">
-  <div class="section-head"><h2>Movie</h2><a href="{{ '/movie/' | relative_url }}">すべて見る →</a></div>
-  {% include youtube.html id=site.featured_youtube_id title="Showreel" %}
-</section>
-{% endif %}
 
 <section class="wrap section">
   <div class="section-head"><h2>Release</h2><a href="{{ '/discography/' | relative_url }}">すべて見る →</a></div>

@@ -68,6 +68,7 @@ content:
         label: 名義
         type: select
         options: { values: [Solo, 屑星, THE FROGS, Feel Art Cafe, Other] }
+      - { name: pickup, label: トップページの「Pick Up」に表示, type: boolean }
 
   - name: projects
     label: プロジェクト

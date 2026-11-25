@@ -15,8 +15,6 @@ author: "Jun Inohara"
 web3forms_key: ""
 contact_email: ""      # フォームを使わない場合のみ、表示するメールアドレス
 
-# トップに表示する YouTube 動画のID（https://youtu.be/XXXX の XXXX 部分）
-featured_youtube_id: "1JYO3SM-xeU"   # Showreel
 
 # OGP（SNSでシェアされたときの画像）
 image: /assets/img/ogp.jpg
